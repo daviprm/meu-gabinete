@@ -16,6 +16,11 @@ import {
   Settings,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -40,33 +45,39 @@ export function NavTabs() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3, delay: 0.1 }}
     >
-      <div className="mx-auto flex max-w-[85rem] items-center gap-0 overflow-x-auto overflow-y-hidden px-6 scrollbar-none">
+      <div className="mx-auto flex max-w-[85rem] items-center gap-0 overflow-x-auto overflow-y-hidden px-1 sm:px-6 scrollbar-none">
         {navItems.map((item) => {
           const isActive =
             pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));
 
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "relative flex items-center gap-1.5 whitespace-nowrap px-3 py-3 text-sm transition-colors",
-                isActive
-                  ? "text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-4 w-4" />
-              <span>{item.label}</span>
-              {isActive && (
-                <motion.div
-                  className="absolute inset-x-0 -bottom-px h-0.5 bg-blue-500"
-                  layoutId="activeTab"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
-            </Link>
+            <Tooltip key={item.href} delayDuration={300}>
+              <TooltipTrigger asChild>
+                <Link
+                  href={item.href}
+                  className={cn(
+                    "relative flex items-center gap-1.5 whitespace-nowrap px-2.5 py-3 text-sm transition-colors sm:px-3",
+                    isActive
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <item.icon className="h-4 w-4 shrink-0" />
+                  <span className="hidden sm:inline">{item.label}</span>
+                  {isActive && (
+                    <motion.div
+                      className="absolute inset-x-0 -bottom-px h-0.5 bg-blue-500"
+                      layoutId="activeTab"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent className="sm:hidden" side="bottom" sideOffset={4}>
+                {item.label}
+              </TooltipContent>
+            </Tooltip>
           );
         })}
       </div>

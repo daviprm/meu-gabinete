@@ -932,19 +932,19 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
       <GlowOrbs />
 
       <motion.div
-        className="relative flex h-[calc(100vh-40px)] w-[calc(100vw-40px)] max-w-7xl flex-col overflow-hidden rounded-3xl border border-foreground/[0.06] bg-background/70 backdrop-blur-xl"
+        className="relative flex h-[calc(100vh-20px)] w-[calc(100vw-20px)] sm:h-[calc(100vh-40px)] sm:w-[calc(100vw-40px)] max-w-7xl flex-col overflow-hidden rounded-2xl sm:rounded-3xl border border-foreground/[0.06] bg-background/70 backdrop-blur-xl"
         variants={containerV}
       >
         {/* Top bar */}
-        <div className="flex shrink-0 items-center justify-between border-b border-foreground/[0.06] px-8 py-4">
+        <div className="flex shrink-0 items-center justify-between border-b border-foreground/[0.06] px-4 py-3 sm:px-8 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="flex gap-1.5">
               <div className="h-3 w-3 rounded-full bg-foreground/10" />
               <div className="h-3 w-3 rounded-full bg-foreground/10" />
               <div className="h-3 w-3 rounded-full bg-foreground/10" />
             </div>
-            <span className="ml-2 text-sm font-medium text-muted-foreground">
-              Meu Gabinete — Onboarding
+            <span className="ml-2 text-xs sm:text-sm font-medium text-muted-foreground">
+              <span className="hidden sm:inline">Meu Gabinete — </span>Onboarding
             </span>
           </div>
           <ProgressBar current={current} total={steps.length} />
@@ -962,7 +962,7 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
               exit="exit"
               className="absolute inset-0 flex items-center"
             >
-              <div className="grid w-full grid-cols-1 gap-10 px-10 lg:grid-cols-2 lg:px-16">
+              <div className="grid w-full grid-cols-1 gap-6 px-4 sm:gap-8 sm:px-6 md:gap-10 md:px-10 lg:grid-cols-2 lg:px-16">
                 {/* Left: text */}
                 <div className="flex flex-col justify-center space-y-6">
                   <motion.div
@@ -982,12 +982,12 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{ delay: 0.15, duration: 0.5 }}
                   >
-                    <h2 className="text-4xl font-bold tracking-tight lg:text-5xl">{step.title}</h2>
-                    <p className="text-xl text-muted-foreground">{step.subtitle}</p>
+                    <h2 className="text-2xl sm:text-4xl font-bold tracking-tight lg:text-5xl">{step.title}</h2>
+                    <p className="text-base sm:text-xl text-muted-foreground">{step.subtitle}</p>
                   </motion.div>
 
                   <motion.p
-                    className="max-w-lg text-base leading-relaxed text-muted-foreground"
+                    className="max-w-lg text-sm sm:text-base leading-relaxed text-muted-foreground"
                     initial={{ opacity: 0, y: 24, filter: "blur(4px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{ delay: 0.2, duration: 0.5 }}
@@ -1031,7 +1031,7 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
                 </div>
 
                 {/* Right: page preview */}
-                <div className="flex items-center justify-center">
+                <div className="hidden lg:flex items-center justify-center">
                   <Preview />
                 </div>
               </div>
@@ -1040,17 +1040,18 @@ export function Onboarding({ onComplete }: { onComplete: () => void }) {
         </div>
 
         {/* Bottom nav */}
-        <div className="flex shrink-0 items-center justify-between border-t border-foreground/[0.06] px-8 py-5">
-          <Button variant="ghost" size="lg" className="gap-1.5 h-11 px-5 rounded-xl" onClick={goPrev} disabled={isFirst}>
+        <div className="flex shrink-0 items-center justify-between border-t border-foreground/[0.06] px-4 py-3 sm:px-8 sm:py-5">
+          <Button variant="ghost" size="sm" className="gap-1 sm:gap-1.5 sm:h-11 sm:px-5 rounded-xl" onClick={goPrev} disabled={isFirst}>
             <ChevronLeft className="h-4 w-4" />
-            Voltar
+            <span className="hidden sm:inline">Voltar</span>
           </Button>
-          <span className="text-sm tabular-nums text-muted-foreground">
+          <span className="text-xs sm:text-sm tabular-nums text-muted-foreground">
             {current + 1} / {steps.length}
           </span>
           {!isLast ? (
-            <Button size="lg" className="gap-1.5 h-11 px-5 rounded-xl" onClick={goNext}>
-              Próximo
+            <Button size="sm" className="gap-1 sm:gap-1.5 sm:h-11 sm:px-5 rounded-xl" onClick={goNext}>
+              <span className="hidden sm:inline">Próximo</span>
+              <span className="sm:hidden">Avançar</span>
               <ChevronRight className="h-4 w-4" />
             </Button>
           ) : (

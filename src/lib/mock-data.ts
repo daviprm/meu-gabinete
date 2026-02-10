@@ -133,17 +133,23 @@ export const equipe: MembroEquipe[] = [
 
 // ---------- EVENTOS ----------
 export const eventos: Evento[] = [
-  { id: "1", titulo: "Reunião de equipe", data: "2026-02-10", horario: "09:00", local: "Gabinete", tipo: "Reunião", descricao: "Alinhamento semanal" },
+  { id: "1", titulo: "Reunião de equipe", data: "2026-02-10", horario: "09:00", local: "Gabinete", tipo: "Reunião", descricao: "Alinhamento semanal com toda a equipe do gabinete" },
   { id: "2", titulo: "Visita ao bairro Centro", data: "2026-02-10", horario: "14:00", local: "Praça da Sé", tipo: "Visita" },
-  { id: "3", titulo: "Audiência pública - Saúde", data: "2026-02-12", horario: "10:00", local: "Câmara Municipal", tipo: "Audiência" },
-  { id: "4", titulo: "Evento comunitário Mooca", data: "2026-02-14", horario: "16:00", local: "Associação de Moradores", tipo: "Evento" },
-  { id: "5", titulo: "Reunião com vereadores", data: "2026-02-15", horario: "11:00", local: "Câmara Municipal", tipo: "Reunião" },
-  { id: "6", titulo: "Campanha porta a porta", data: "2026-02-17", horario: "08:00", local: "Vila Madalena", tipo: "Campanha" },
-  { id: "7", titulo: "Visita escola municipal", data: "2026-02-18", horario: "09:30", local: "EM Prof. João Silva", tipo: "Visita" },
-  { id: "8", titulo: "Reunião comunidade Santana", data: "2026-02-20", horario: "19:00", local: "Centro Comunitário", tipo: "Reunião" },
-  { id: "9", titulo: "Inauguração praça", data: "2026-02-22", horario: "10:00", local: "Pinheiros", tipo: "Evento" },
-  { id: "10", titulo: "Audiência transporte", data: "2026-02-25", horario: "14:00", local: "Câmara Municipal", tipo: "Audiência" },
-  { id: "11", titulo: "Reunião de planejamento mensal", data: "2026-03-01", horario: "09:00", local: "Gabinete", tipo: "Reunião" },
+  { id: "3", titulo: "Ligação com assessoria", data: "2026-02-10", horario: "16:30", local: "Gabinete", tipo: "Reunião", descricao: "Alinhar pautas da semana" },
+  { id: "4", titulo: "Audiência pública - Saúde", data: "2026-02-12", horario: "10:00", local: "Câmara Municipal", tipo: "Audiência", descricao: "Discussão sobre UBS do bairro Centro" },
+  { id: "5", titulo: "Almoço com lideranças", data: "2026-02-12", horario: "12:30", local: "Restaurante Central", tipo: "Reunião" },
+  { id: "6", titulo: "Evento comunitário Mooca", data: "2026-02-14", horario: "16:00", local: "Associação de Moradores", tipo: "Evento", descricao: "Entrega de cestas básicas e atendimento" },
+  { id: "7", titulo: "Reunião com vereadores", data: "2026-02-15", horario: "11:00", local: "Câmara Municipal", tipo: "Reunião" },
+  { id: "8", titulo: "Campanha porta a porta", data: "2026-02-17", horario: "08:00", local: "Vila Madalena", tipo: "Campanha" },
+  { id: "9", titulo: "Visita escola municipal", data: "2026-02-18", horario: "09:30", local: "EM Prof. João Silva", tipo: "Visita" },
+  { id: "10", titulo: "Reunião comunidade Santana", data: "2026-02-20", horario: "19:00", local: "Centro Comunitário", tipo: "Reunião" },
+  { id: "11", titulo: "Inauguração praça", data: "2026-02-22", horario: "10:00", local: "Pinheiros", tipo: "Evento" },
+  { id: "12", titulo: "Audiência transporte", data: "2026-02-25", horario: "14:00", local: "Câmara Municipal", tipo: "Audiência" },
+  { id: "13", titulo: "Reunião de planejamento mensal", data: "2026-03-01", horario: "09:00", local: "Gabinete", tipo: "Reunião" },
+  { id: "14", titulo: "Visita posto de saúde", data: "2026-02-11", horario: "10:00", local: "UBS Centro", tipo: "Visita", descricao: "Verificar demandas de infraestrutura" },
+  { id: "15", titulo: "Reunião orçamento", data: "2026-02-11", horario: "15:00", local: "Gabinete", tipo: "Reunião" },
+  { id: "16", titulo: "Campanha Zona Norte", data: "2026-02-13", horario: "08:30", local: "Jardins", tipo: "Campanha" },
+  { id: "17", titulo: "Entrevista rádio local", data: "2026-02-13", horario: "11:00", local: "Rádio Cidade", tipo: "Evento" },
 ];
 
 // ---------- SEGMENTOS ----------

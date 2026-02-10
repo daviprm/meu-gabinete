@@ -11,20 +11,10 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { DatePicker } from "@/components/ui/date-picker";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogTrigger,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
+  Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
 import { pesquisas, type Pesquisa } from "@/lib/mock-data";
 
@@ -46,7 +36,7 @@ export default function PesquisasPage() {
 
   return (
     <motion.div
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -60,9 +50,10 @@ export default function PesquisasPage() {
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" className="gap-1.5">
+            <Button size="sm" className="gap-1.5 shrink-0">
               <Plus className="h-4 w-4" />
-              Nova Pesquisa
+              <span className="hidden sm:inline">Nova Pesquisa</span>
+              <span className="sm:hidden">Nova</span>
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -75,7 +66,7 @@ export default function PesquisasPage() {
                 <Label htmlFor="pesquisa-nome">Nome da pesquisa</Label>
                 <Input id="pesquisa-nome" placeholder="Ex: Pesquisa Centro - Jan/26" />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="pesquisa-data">Data</Label>
                   <DatePicker placeholder="Selecionar data" />
@@ -103,9 +94,9 @@ export default function PesquisasPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:gap-4 sm:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.label} className="flex items-center gap-3 rounded-lg border border-border p-4">
+          <div key={s.label} className="flex items-center gap-3 rounded-lg border border-border p-3 sm:p-4">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
               <s.icon className="h-4 w-4 text-muted-foreground" />
             </div>
@@ -123,8 +114,8 @@ export default function PesquisasPage() {
         <Input placeholder="Buscar pesquisa..." className="pl-9" />
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border border-border">
+      {/* Desktop Table */}
+      <div className="hidden md:block rounded-lg border border-border">
         <div className="grid grid-cols-[1fr_100px_120px_140px_80px_100px] gap-4 border-b border-border px-4 py-2.5 text-xs font-medium text-muted-foreground">
           <span>Nome</span>
           <span>Data</span>
@@ -142,16 +133,39 @@ export default function PesquisasPage() {
             onClick={() => setSelected(p)}
             className="grid grid-cols-[1fr_100px_120px_140px_80px_100px] items-center gap-4 border-b border-border px-4 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors cursor-pointer"
           >
-            <span className="font-medium truncate hover:underline underline-offset-4 decoration-muted-foreground/40">{p.nome}</span>
+            <span className="font-medium truncate">{p.nome}</span>
             <span className="text-muted-foreground">{new Date(p.data).toLocaleDateString("pt-BR")}</span>
             <span className="text-muted-foreground">{p.bairro}</span>
             <span className="text-muted-foreground">{p.pesquisador}</span>
             <span className="text-right tabular-nums">{p.eleitores}</span>
             <span className="flex justify-end">
-              <Badge variant="secondary" className={statusColor[p.status]}>
-                {p.status}
-              </Badge>
+              <Badge variant="secondary" className={statusColor[p.status]}>{p.status}</Badge>
             </span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="space-y-2 md:hidden">
+        {pesquisas.map((p, i) => (
+          <motion.div
+            key={p.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.04 }}
+            onClick={() => setSelected(p)}
+            className="rounded-lg border border-border p-3 active:bg-muted/50 transition-colors cursor-pointer"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-sm font-medium">{p.nome}</p>
+              <Badge variant="secondary" className={`shrink-0 text-[10px] ${statusColor[p.status]}`}>{p.status}</Badge>
+            </div>
+            <div className="mt-1.5 flex items-center gap-3 text-xs text-muted-foreground">
+              <span>{p.bairro}</span>
+              <span className="tabular-nums">{new Date(p.data).toLocaleDateString("pt-BR")}</span>
+              <span className="tabular-nums">{p.eleitores} eleitores</span>
+            </div>
+            <p className="mt-1 text-xs text-muted-foreground">{p.pesquisador}</p>
           </motion.div>
         ))}
       </div>

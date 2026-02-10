@@ -48,7 +48,7 @@ export default function DemandasPage() {
 
   return (
     <motion.div
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -60,9 +60,10 @@ export default function DemandasPage() {
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" className="gap-1.5">
+            <Button size="sm" className="gap-1.5 shrink-0">
               <Plus className="h-4 w-4" />
-              Nova Demanda
+              <span className="hidden sm:inline">Nova Demanda</span>
+              <span className="sm:hidden">Nova</span>
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -79,7 +80,7 @@ export default function DemandasPage() {
                 <Label>Descrição</Label>
                 <Textarea placeholder="Descreva a demanda em detalhes..." rows={3} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Categoria</Label>
                   <Input placeholder="Ex: Infraestrutura" />
@@ -93,7 +94,7 @@ export default function DemandasPage() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Eleitor</Label>
                   <Input placeholder="Nome do eleitor" />
@@ -113,15 +114,15 @@ export default function DemandasPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="flex items-center gap-3 rounded-lg border border-border p-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
+          <div key={s.label} className="flex items-center gap-2 sm:gap-3 rounded-lg border border-border p-3 sm:p-4">
+            <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
               <s.icon className={`h-4 w-4 ${s.color}`} />
             </div>
             <div>
-              <p className="text-2xl font-semibold tracking-tight">{s.value}</p>
-              <p className="text-xs text-muted-foreground">{s.label}</p>
+              <p className="text-xl sm:text-2xl font-semibold tracking-tight">{s.value}</p>
+              <p className="text-[10px] sm:text-xs text-muted-foreground">{s.label}</p>
             </div>
           </div>
         ))}
@@ -132,8 +133,8 @@ export default function DemandasPage() {
         <Input placeholder="Buscar demanda..." className="pl-9" />
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border border-border">
+      {/* Desktop Table */}
+      <div className="hidden md:block rounded-lg border border-border">
         <div className="grid grid-cols-[1fr_110px_80px_110px_120px_120px] gap-4 border-b border-border px-4 py-2.5 text-xs font-medium text-muted-foreground">
           <span>Título</span>
           <span>Status</span>
@@ -151,7 +152,7 @@ export default function DemandasPage() {
             onClick={() => setSelected(d)}
             className="grid grid-cols-[1fr_110px_80px_110px_120px_120px] items-center gap-4 border-b border-border px-4 py-3 text-sm last:border-0 hover:bg-muted/50 transition-colors cursor-pointer"
           >
-            <span className="font-medium truncate hover:underline underline-offset-4 decoration-muted-foreground/40">{d.titulo}</span>
+            <span className="font-medium truncate">{d.titulo}</span>
             <Badge variant="secondary" className={statusColor[d.status]}>{d.status}</Badge>
             <div className="flex items-center gap-1.5">
               <div className={`h-2 w-2 rounded-full ${prioridadeDot[d.prioridade]}`} />
@@ -160,6 +161,35 @@ export default function DemandasPage() {
             <Badge variant="outline" className="text-[11px]">{d.categoria}</Badge>
             <span className="text-muted-foreground truncate">{d.eleitor}</span>
             <span className="text-muted-foreground truncate">{d.responsavel}</span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="space-y-2 md:hidden">
+        {demandas.map((d, i) => (
+          <motion.div
+            key={d.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.04 }}
+            onClick={() => setSelected(d)}
+            className="rounded-lg border border-border p-3 active:bg-muted/50 transition-colors cursor-pointer"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <p className="text-sm font-medium">{d.titulo}</p>
+              <Badge variant="secondary" className={`shrink-0 text-[10px] ${statusColor[d.status]}`}>{d.status}</Badge>
+            </div>
+            <div className="mt-1.5 flex items-center gap-3 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <div className={`h-1.5 w-1.5 rounded-full ${prioridadeDot[d.prioridade]}`} />
+                {d.prioridade}
+              </div>
+              <Badge variant="outline" className="text-[10px]">{d.categoria}</Badge>
+            </div>
+            <div className="mt-1.5 text-xs text-muted-foreground">
+              {d.eleitor} · {d.responsavel}
+            </div>
           </motion.div>
         ))}
       </div>

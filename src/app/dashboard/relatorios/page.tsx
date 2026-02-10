@@ -42,7 +42,7 @@ export default function RelatoriosPage() {
 
       {/* Last report preview */}
       <div className="rounded-lg border border-border p-5">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
           <div>
             <p className="text-sm font-medium">Último relatório gerado</p>
             <p className="text-xs text-muted-foreground">Relatório Geral · 05/02/2026</p>

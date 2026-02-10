@@ -35,7 +35,7 @@ export default function EleitoresPage() {
 
   return (
     <motion.div
-      className="space-y-6"
+      className="space-y-4 sm:space-y-6"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -47,9 +47,10 @@ export default function EleitoresPage() {
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button size="sm" className="gap-1.5">
+            <Button size="sm" className="gap-1.5 shrink-0">
               <Plus className="h-4 w-4" />
-              Novo Eleitor
+              <span className="hidden sm:inline">Novo Eleitor</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -58,7 +59,7 @@ export default function EleitoresPage() {
               <DialogDescription>Cadastre um novo eleitor na base.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 overflow-y-auto px-6 py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Nome completo</Label>
                   <Input placeholder="Nome do eleitor" />
@@ -68,7 +69,7 @@ export default function EleitoresPage() {
                   <Input placeholder="(00) 00000-0000" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>E-mail</Label>
                   <Input type="email" placeholder="email@exemplo.com" />
@@ -108,8 +109,8 @@ export default function EleitoresPage() {
         <Input placeholder="Buscar por nome, bairro..." className="pl-9" />
       </div>
 
-      {/* Table */}
-      <div className="rounded-lg border border-border">
+      {/* Desktop Table */}
+      <div className="hidden md:block rounded-lg border border-border">
         <div className="grid grid-cols-[1fr_120px_130px_100px_1fr_100px] gap-4 border-b border-border px-4 py-2.5 text-xs font-medium text-muted-foreground">
           <span>Nome</span>
           <span>Bairro</span>
@@ -127,7 +128,7 @@ export default function EleitoresPage() {
             onClick={() => setSelected(e)}
             className="grid cursor-pointer grid-cols-[1fr_120px_130px_100px_1fr_100px] items-center gap-4 border-b border-border px-4 py-3 text-sm last:border-0 transition-colors hover:bg-muted/50"
           >
-            <span className="font-medium truncate hover:underline underline-offset-4 decoration-muted-foreground/40">{e.nome}</span>
+            <span className="font-medium truncate">{e.nome}</span>
             <span className="text-muted-foreground">{e.bairro}</span>
             <span className="text-muted-foreground tabular-nums">{e.telefone}</span>
             <Badge variant="secondary" className={intencaoBadge[e.intencao]}>{e.intencao}</Badge>
@@ -137,6 +138,36 @@ export default function EleitoresPage() {
               ))}
             </div>
             <span className="text-right text-muted-foreground">{new Date(e.dataCadastro).toLocaleDateString("pt-BR")}</span>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Mobile Cards */}
+      <div className="space-y-2 md:hidden">
+        {eleitores.map((e, i) => (
+          <motion.div
+            key={e.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: i * 0.03 }}
+            onClick={() => setSelected(e)}
+            className="rounded-lg border border-border p-3 active:bg-muted/50 transition-colors cursor-pointer"
+          >
+            <div className="flex items-center gap-3">
+              <img src={e.foto} alt={e.nome} className={`h-9 w-9 rounded-full object-cover ring-2 ${intencaoRing[e.intencao]}`} />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium truncate">{e.nome}</p>
+                <p className="text-xs text-muted-foreground">{e.bairro} · {e.telefone}</p>
+              </div>
+              <Badge variant="secondary" className={`shrink-0 text-[10px] ${intencaoBadge[e.intencao]}`}>{e.intencao}</Badge>
+            </div>
+            {e.tags.length > 0 && (
+              <div className="flex gap-1 mt-2 overflow-hidden">
+                {e.tags.map((t) => (
+                  <Badge key={t} variant="outline" className="text-[10px]">{t}</Badge>
+                ))}
+              </div>
+            )}
           </motion.div>
         ))}
       </div>

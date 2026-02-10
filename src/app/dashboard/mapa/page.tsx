@@ -89,7 +89,7 @@ export default function MapaPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[320px_1fr]">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr]">
         {/* Sidebar */}
         <div className="space-y-4">
           <div className="relative">
@@ -116,7 +116,7 @@ export default function MapaPage() {
           </div>
 
           {/* Lista de eleitores */}
-          <div className="max-h-[calc(100vh-320px)] space-y-1.5 overflow-y-auto pr-1">
+          <div className="max-h-64 md:max-h-[calc(100vh-320px)] space-y-1.5 overflow-y-auto pr-1">
             {filtered.map((e, i) => {
               const isExpanded = expandedId === e.id;
               return (
@@ -229,7 +229,7 @@ export default function MapaPage() {
         </div>
 
         {/* Mapa */}
-        <div className="relative min-h-[500px] rounded-lg border border-border overflow-hidden">
+        <div className="relative min-h-[350px] sm:min-h-[500px] rounded-lg border border-border overflow-hidden">
           <Map
             ref={mapRef}
             center={[-37.0600, -10.9300]}

@@ -54,7 +54,7 @@ export default function EquipePage() {
               <DialogDescription>Adicione um novo membro à equipe do gabinete.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 overflow-y-auto px-6 py-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Nome completo</Label>
                   <Input placeholder="Nome do membro" />
@@ -64,7 +64,7 @@ export default function EquipePage() {
                   <Input type="email" placeholder="email@gabinete.com" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Telefone</Label>
                   <Input placeholder="(00) 00000-0000" />
