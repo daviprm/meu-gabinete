@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { StatsCards } from "@/components/dashboard/stats-cards";
 import { RevenueChart } from "@/components/dashboard/charts/revenue-chart";
@@ -11,13 +11,25 @@ import { RecentActivity } from "@/components/dashboard/recent-activity";
 import { Onboarding } from "@/components/dashboard/onboarding";
 
 export default function DashboardPage() {
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  useEffect(() => {
+    const done = localStorage.getItem("onboarding-done");
+    if (!done) {
+      setShowOnboarding(true);
+    }
+  }, []);
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem("onboarding-done", "true");
+    setShowOnboarding(false);
+  };
 
   return (
     <>
       <AnimatePresence>
         {showOnboarding && (
-          <Onboarding onComplete={() => setShowOnboarding(false)} />
+          <Onboarding onComplete={handleOnboardingComplete} />
         )}
       </AnimatePresence>
 

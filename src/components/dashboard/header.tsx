@@ -20,9 +20,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/auth-store";
 
 export function Header() {
   const { resolvedTheme, setTheme } = useTheme();
+  const router = useRouter();
+  const { logout } = useAuthStore();
 
   return (
     <motion.header
@@ -113,7 +117,13 @@ export function Header() {
                 </span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-500 focus:text-red-500">
+              <DropdownMenuItem
+                className="text-red-500 focus:text-red-500"
+                onClick={() => {
+                  logout();
+                  router.push("/login");
+                }}
+              >
                 <LogOut className="h-4 w-4" />
                 <span>Sair</span>
               </DropdownMenuItem>

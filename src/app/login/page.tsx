@@ -12,7 +12,9 @@ import {
   Moon,
 } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/stores/auth-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -104,11 +106,36 @@ function FloatingOrbs() {
 export default function LoginPage() {
   const { resolvedTheme, setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState("user@test.com");
+  const [password, setPassword] = useState("123456");
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const { login, hydrate, isAuthenticated } = useAuthStore();
+
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.replace("/dashboard");
+    }
+  }, [isAuthenticated, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000);
+    setError("");
+
+    setTimeout(() => {
+      const success = login(email, password);
+      if (success) {
+        router.push("/dashboard");
+      } else {
+        setError("E-mail ou senha inválidos.");
+        setIsLoading(false);
+      }
+    }, 800);
   };
 
   return (
@@ -238,6 +265,8 @@ export default function LoginPage() {
                   placeholder="seu@email.com ou username"
                   autoComplete="email"
                   disabled={isLoading}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -254,8 +283,14 @@ export default function LoginPage() {
                   placeholder="••••••••"
                   autoComplete="current-password"
                   disabled={isLoading}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+
+              {error && (
+                <p className="text-sm text-red-500">{error}</p>
+              )}
 
               <Button className="w-full" type="submit" disabled={isLoading}>
                 {isLoading ? (
@@ -269,10 +304,17 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            <p className="pt-2 text-center text-xs text-muted-foreground/60">
-              Sistema de uso interno. Acesso restrito a colaboradores
-              autorizados.
-            </p>
+            <div className="rounded-lg border border-border bg-muted/50 px-4 py-3 text-xs text-muted-foreground">
+              <p className="font-medium text-foreground">Ambiente de demonstração</p>
+              <p className="mt-1">
+                E-mail: <span className="font-mono font-medium text-foreground">user@test.com</span>
+                <br />
+                Senha: <span className="font-mono font-medium text-foreground">123456</span>
+              </p>
+              <p className="mt-1.5">
+                Basta clicar em <strong>Entrar</strong> — os campos já estão preenchidos.
+              </p>
+            </div>
           </motion.div>
         </div>
       </div>
