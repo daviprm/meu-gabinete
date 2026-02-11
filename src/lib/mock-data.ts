@@ -170,3 +170,618 @@ export const comunicacoes: Comunicacao[] = [
   { id: "5", tipo: "Ligação", data: "2026-01-30", segmento: "Favoráveis - Centro", mensagem: "Convite pessoal para evento comunitário", status: "Entregue", destinatarios: 12 },
   { id: "6", tipo: "Email", data: "2026-01-15", segmento: "Zona Leste completa", mensagem: "Prestação de contas - Dezembro 2025", status: "Enviado", destinatarios: 87 },
 ];
+
+// ========== PESQUISAS ELEITORAIS ==========
+
+export interface CandidatoPrefeito {
+  id: string;
+  nome: string;
+  partido: string;
+  numero: number;
+  cor: string;
+  foto: string;
+  votos: number;
+  percentual: number;
+}
+
+export interface CandidatoVereador {
+  id: string;
+  nome: string;
+  partido: string;
+  numero: number;
+  cor: string;
+  foto: string;
+  votos: number;
+  percentual: number;
+}
+
+export interface ResultadoBairro {
+  bairro: string;
+  totalEntrevistados: number;
+  candidatos: { candidatoId: string; votos: number; percentual: number }[];
+  lider: string;
+  corLider: string;
+}
+
+export interface EvolucaoTemporal {
+  mes: string;
+  candidatos: { candidatoId: string; percentual: number }[];
+}
+
+export interface DadosDemograficos {
+  faixaEtaria: { faixa: string; candidatos: { candidatoId: string; pct: number }[] }[];
+  genero: { genero: string; candidatos: { candidatoId: string; pct: number }[] }[];
+}
+
+// ---------- CANDIDATOS PREFEITO ----------
+export const candidatosPrefeito: CandidatoPrefeito[] = [
+  { id: "cp1", nome: "Carlos Eduardo", partido: "PSD", numero: 55, cor: "#2563eb", foto: "https://i.pravatar.cc/150?img=10", votos: 1850, percentual: 35.2 },
+  { id: "cp2", nome: "Ana Beatriz", partido: "PT", numero: 13, cor: "#dc2626", foto: "https://i.pravatar.cc/150?img=25", votos: 1320, percentual: 25.1 },
+  { id: "cp3", nome: "Roberto Mendes", partido: "PL", numero: 22, cor: "#16a34a", foto: "https://i.pravatar.cc/150?img=33", votos: 1050, percentual: 20.0 },
+  { id: "cp4", nome: "Mariana Costa", partido: "PSOL", numero: 50, cor: "#9333ea", foto: "https://i.pravatar.cc/150?img=47", votos: 580, percentual: 11.0 },
+  { id: "cp5", nome: "José Lima", partido: "MDB", numero: 15, cor: "#f59e0b", foto: "https://i.pravatar.cc/150?img=52", votos: 460, percentual: 8.7 },
+];
+
+// ---------- CANDIDATOS VEREADOR ----------
+export const candidatosVereador: CandidatoVereador[] = [
+  { id: "cv1", nome: "Paulo Ferreira", partido: "PSD", numero: 55111, cor: "#2563eb", foto: "https://i.pravatar.cc/150?img=13", votos: 920, percentual: 18.4 },
+  { id: "cv2", nome: "Lucia Santos", partido: "PT", numero: 13222, cor: "#dc2626", foto: "https://i.pravatar.cc/150?img=27", votos: 780, percentual: 15.6 },
+  { id: "cv3", nome: "Fernando Alves", partido: "PL", numero: 22333, cor: "#16a34a", foto: "https://i.pravatar.cc/150?img=31", votos: 650, percentual: 13.0 },
+  { id: "cv4", nome: "Carla Ribeiro", partido: "PSOL", numero: 50444, cor: "#9333ea", foto: "https://i.pravatar.cc/150?img=44", votos: 580, percentual: 11.6 },
+  { id: "cv5", nome: "Marcos Oliveira", partido: "MDB", numero: 15555, cor: "#f59e0b", foto: "https://i.pravatar.cc/150?img=51", votos: 520, percentual: 10.4 },
+  { id: "cv6", nome: "Sandra Lima", partido: "PP", numero: 11666, cor: "#0ea5e9", foto: "https://i.pravatar.cc/150?img=48", votos: 480, percentual: 9.6 },
+];
+
+// ---------- RESULTADOS POR BAIRRO - PREFEITO ----------
+export const resultadosBairroPrefeito: ResultadoBairro[] = [
+  {
+    bairro: "Centro",
+    totalEntrevistados: 72,
+    candidatos: [
+      { candidatoId: "cp1", votos: 28, percentual: 38.9 },
+      { candidatoId: "cp2", votos: 18, percentual: 25.0 },
+      { candidatoId: "cp3", votos: 14, percentual: 19.4 },
+      { candidatoId: "cp4", votos: 8, percentual: 11.1 },
+      { candidatoId: "cp5", votos: 4, percentual: 5.6 },
+    ],
+    lider: "Carlos Eduardo",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Jardins",
+    totalEntrevistados: 65,
+    candidatos: [
+      { candidatoId: "cp1", votos: 25, percentual: 38.5 },
+      { candidatoId: "cp2", votos: 16, percentual: 24.6 },
+      { candidatoId: "cp3", votos: 12, percentual: 18.5 },
+      { candidatoId: "cp4", votos: 8, percentual: 12.3 },
+      { candidatoId: "cp5", votos: 4, percentual: 6.1 },
+    ],
+    lider: "Carlos Eduardo",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Atalaia",
+    totalEntrevistados: 58,
+    candidatos: [
+      { candidatoId: "cp2", votos: 20, percentual: 34.5 },
+      { candidatoId: "cp1", votos: 18, percentual: 31.0 },
+      { candidatoId: "cp3", votos: 10, percentual: 17.2 },
+      { candidatoId: "cp4", votos: 7, percentual: 12.1 },
+      { candidatoId: "cp5", votos: 3, percentual: 5.2 },
+    ],
+    lider: "Ana Beatriz",
+    corLider: "#dc2626",
+  },
+  {
+    bairro: "Farolândia",
+    totalEntrevistados: 48,
+    candidatos: [
+      { candidatoId: "cp1", votos: 18, percentual: 37.5 },
+      { candidatoId: "cp2", votos: 12, percentual: 25.0 },
+      { candidatoId: "cp3", votos: 10, percentual: 20.8 },
+      { candidatoId: "cp4", votos: 5, percentual: 10.4 },
+      { candidatoId: "cp5", votos: 3, percentual: 6.3 },
+    ],
+    lider: "Carlos Eduardo",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Siqueira Campos",
+    totalEntrevistados: 55,
+    candidatos: [
+      { candidatoId: "cp3", votos: 20, percentual: 36.4 },
+      { candidatoId: "cp1", votos: 16, percentual: 29.1 },
+      { candidatoId: "cp2", votos: 12, percentual: 21.8 },
+      { candidatoId: "cp4", votos: 5, percentual: 9.1 },
+      { candidatoId: "cp5", votos: 2, percentual: 3.6 },
+    ],
+    lider: "Roberto Mendes",
+    corLider: "#16a34a",
+  },
+  {
+    bairro: "13 de Julho",
+    totalEntrevistados: 80,
+    candidatos: [
+      { candidatoId: "cp1", votos: 32, percentual: 40.0 },
+      { candidatoId: "cp2", votos: 20, percentual: 25.0 },
+      { candidatoId: "cp3", votos: 15, percentual: 18.8 },
+      { candidatoId: "cp4", votos: 9, percentual: 11.2 },
+      { candidatoId: "cp5", votos: 4, percentual: 5.0 },
+    ],
+    lider: "Carlos Eduardo",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Luzia",
+    totalEntrevistados: 42,
+    candidatos: [
+      { candidatoId: "cp2", votos: 15, percentual: 35.7 },
+      { candidatoId: "cp1", votos: 12, percentual: 28.6 },
+      { candidatoId: "cp3", votos: 8, percentual: 19.0 },
+      { candidatoId: "cp4", votos: 5, percentual: 11.9 },
+      { candidatoId: "cp5", votos: 2, percentual: 4.8 },
+    ],
+    lider: "Ana Beatriz",
+    corLider: "#dc2626",
+  },
+  {
+    bairro: "Grageru",
+    totalEntrevistados: 68,
+    candidatos: [
+      { candidatoId: "cp1", votos: 26, percentual: 38.2 },
+      { candidatoId: "cp2", votos: 18, percentual: 26.5 },
+      { candidatoId: "cp3", votos: 13, percentual: 19.1 },
+      { candidatoId: "cp4", votos: 7, percentual: 10.3 },
+      { candidatoId: "cp5", votos: 4, percentual: 5.9 },
+    ],
+    lider: "Carlos Eduardo",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Coroa do Meio",
+    totalEntrevistados: 52,
+    candidatos: [
+      { candidatoId: "cp2", votos: 18, percentual: 34.6 },
+      { candidatoId: "cp1", votos: 15, percentual: 28.8 },
+      { candidatoId: "cp3", votos: 10, percentual: 19.2 },
+      { candidatoId: "cp4", votos: 6, percentual: 11.5 },
+      { candidatoId: "cp5", votos: 3, percentual: 5.9 },
+    ],
+    lider: "Ana Beatriz",
+    corLider: "#dc2626",
+  },
+  {
+    bairro: "Inácio Barbosa",
+    totalEntrevistados: 45,
+    candidatos: [
+      { candidatoId: "cp3", votos: 16, percentual: 35.6 },
+      { candidatoId: "cp1", votos: 13, percentual: 28.9 },
+      { candidatoId: "cp2", votos: 10, percentual: 22.2 },
+      { candidatoId: "cp4", votos: 4, percentual: 8.9 },
+      { candidatoId: "cp5", votos: 2, percentual: 4.4 },
+    ],
+    lider: "Roberto Mendes",
+    corLider: "#16a34a",
+  },
+];
+
+// ---------- RESULTADOS POR BAIRRO - VEREADOR ----------
+export const resultadosBairroVereador: ResultadoBairro[] = [
+  {
+    bairro: "Centro",
+    totalEntrevistados: 72,
+    candidatos: [
+      { candidatoId: "cv1", votos: 15, percentual: 20.8 },
+      { candidatoId: "cv2", votos: 13, percentual: 18.1 },
+      { candidatoId: "cv3", votos: 12, percentual: 16.7 },
+      { candidatoId: "cv4", votos: 10, percentual: 13.9 },
+      { candidatoId: "cv5", votos: 8, percentual: 11.1 },
+      { candidatoId: "cv6", votos: 7, percentual: 9.7 },
+    ],
+    lider: "Paulo Ferreira",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Jardins",
+    totalEntrevistados: 65,
+    candidatos: [
+      { candidatoId: "cv2", votos: 14, percentual: 21.5 },
+      { candidatoId: "cv1", votos: 12, percentual: 18.5 },
+      { candidatoId: "cv3", votos: 11, percentual: 16.9 },
+      { candidatoId: "cv4", votos: 9, percentual: 13.8 },
+      { candidatoId: "cv5", votos: 8, percentual: 12.3 },
+      { candidatoId: "cv6", votos: 6, percentual: 9.2 },
+    ],
+    lider: "Lucia Santos",
+    corLider: "#dc2626",
+  },
+  {
+    bairro: "Atalaia",
+    totalEntrevistados: 58,
+    candidatos: [
+      { candidatoId: "cv3", votos: 13, percentual: 22.4 },
+      { candidatoId: "cv1", votos: 11, percentual: 19.0 },
+      { candidatoId: "cv2", votos: 10, percentual: 17.2 },
+      { candidatoId: "cv4", votos: 8, percentual: 13.8 },
+      { candidatoId: "cv5", votos: 7, percentual: 12.1 },
+      { candidatoId: "cv6", votos: 5, percentual: 8.6 },
+    ],
+    lider: "Fernando Alves",
+    corLider: "#16a34a",
+  },
+  {
+    bairro: "Farolândia",
+    totalEntrevistados: 48,
+    candidatos: [
+      { candidatoId: "cv1", votos: 10, percentual: 20.8 },
+      { candidatoId: "cv2", votos: 9, percentual: 18.8 },
+      { candidatoId: "cv4", votos: 8, percentual: 16.7 },
+      { candidatoId: "cv3", votos: 7, percentual: 14.6 },
+      { candidatoId: "cv5", votos: 6, percentual: 12.5 },
+      { candidatoId: "cv6", votos: 5, percentual: 10.4 },
+    ],
+    lider: "Paulo Ferreira",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Siqueira Campos",
+    totalEntrevistados: 55,
+    candidatos: [
+      { candidatoId: "cv4", votos: 12, percentual: 21.8 },
+      { candidatoId: "cv1", votos: 11, percentual: 20.0 },
+      { candidatoId: "cv3", votos: 9, percentual: 16.4 },
+      { candidatoId: "cv2", votos: 8, percentual: 14.5 },
+      { candidatoId: "cv5", votos: 7, percentual: 12.7 },
+      { candidatoId: "cv6", votos: 6, percentual: 10.9 },
+    ],
+    lider: "Carla Ribeiro",
+    corLider: "#9333ea",
+  },
+  {
+    bairro: "13 de Julho",
+    totalEntrevistados: 80,
+    candidatos: [
+      { candidatoId: "cv1", votos: 16, percentual: 20.0 },
+      { candidatoId: "cv2", votos: 14, percentual: 17.5 },
+      { candidatoId: "cv3", votos: 13, percentual: 16.3 },
+      { candidatoId: "cv4", votos: 11, percentual: 13.8 },
+      { candidatoId: "cv5", votos: 10, percentual: 12.5 },
+      { candidatoId: "cv6", votos: 9, percentual: 11.3 },
+    ],
+    lider: "Paulo Ferreira",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Luzia",
+    totalEntrevistados: 42,
+    candidatos: [
+      { candidatoId: "cv2", votos: 10, percentual: 23.8 },
+      { candidatoId: "cv4", votos: 8, percentual: 19.0 },
+      { candidatoId: "cv1", votos: 7, percentual: 16.7 },
+      { candidatoId: "cv3", votos: 6, percentual: 14.3 },
+      { candidatoId: "cv5", votos: 5, percentual: 11.9 },
+      { candidatoId: "cv6", votos: 4, percentual: 9.5 },
+    ],
+    lider: "Lucia Santos",
+    corLider: "#dc2626",
+  },
+  {
+    bairro: "Grageru",
+    totalEntrevistados: 68,
+    candidatos: [
+      { candidatoId: "cv1", votos: 14, percentual: 20.6 },
+      { candidatoId: "cv3", votos: 12, percentual: 17.6 },
+      { candidatoId: "cv2", votos: 11, percentual: 16.2 },
+      { candidatoId: "cv4", votos: 10, percentual: 14.7 },
+      { candidatoId: "cv5", votos: 9, percentual: 13.2 },
+      { candidatoId: "cv6", votos: 7, percentual: 10.3 },
+    ],
+    lider: "Paulo Ferreira",
+    corLider: "#2563eb",
+  },
+  {
+    bairro: "Coroa do Meio",
+    totalEntrevistados: 52,
+    candidatos: [
+      { candidatoId: "cv3", votos: 11, percentual: 21.2 },
+      { candidatoId: "cv2", votos: 10, percentual: 19.2 },
+      { candidatoId: "cv1", votos: 9, percentual: 17.3 },
+      { candidatoId: "cv4", votos: 8, percentual: 15.4 },
+      { candidatoId: "cv5", votos: 7, percentual: 13.5 },
+      { candidatoId: "cv6", votos: 5, percentual: 9.6 },
+    ],
+    lider: "Fernando Alves",
+    corLider: "#16a34a",
+  },
+  {
+    bairro: "Inácio Barbosa",
+    totalEntrevistados: 45,
+    candidatos: [
+      { candidatoId: "cv5", votos: 10, percentual: 22.2 },
+      { candidatoId: "cv1", votos: 8, percentual: 17.8 },
+      { candidatoId: "cv3", votos: 8, percentual: 17.8 },
+      { candidatoId: "cv2", votos: 7, percentual: 15.6 },
+      { candidatoId: "cv4", votos: 6, percentual: 13.3 },
+      { candidatoId: "cv6", votos: 4, percentual: 8.9 },
+    ],
+    lider: "Marcos Oliveira",
+    corLider: "#f59e0b",
+  },
+];
+
+// ---------- EVOLUÇÃO TEMPORAL - PREFEITO ----------
+export const evolucaoPrefeito: EvolucaoTemporal[] = [
+  {
+    mes: "Ago",
+    candidatos: [
+      { candidatoId: "cp1", percentual: 28.0 },
+      { candidatoId: "cp2", percentual: 24.5 },
+      { candidatoId: "cp3", percentual: 24.0 },
+      { candidatoId: "cp4", percentual: 13.5 },
+      { candidatoId: "cp5", percentual: 10.0 },
+    ],
+  },
+  {
+    mes: "Set",
+    candidatos: [
+      { candidatoId: "cp1", percentual: 30.2 },
+      { candidatoId: "cp2", percentual: 25.0 },
+      { candidatoId: "cp3", percentual: 22.8 },
+      { candidatoId: "cp4", percentual: 12.5 },
+      { candidatoId: "cp5", percentual: 9.5 },
+    ],
+  },
+  {
+    mes: "Out",
+    candidatos: [
+      { candidatoId: "cp1", percentual: 31.5 },
+      { candidatoId: "cp2", percentual: 25.3 },
+      { candidatoId: "cp3", percentual: 21.5 },
+      { candidatoId: "cp4", percentual: 12.0 },
+      { candidatoId: "cp5", percentual: 9.7 },
+    ],
+  },
+  {
+    mes: "Nov",
+    candidatos: [
+      { candidatoId: "cp1", percentual: 33.0 },
+      { candidatoId: "cp2", percentual: 25.2 },
+      { candidatoId: "cp3", percentual: 21.0 },
+      { candidatoId: "cp4", percentual: 11.5 },
+      { candidatoId: "cp5", percentual: 9.3 },
+    ],
+  },
+  {
+    mes: "Dez",
+    candidatos: [
+      { candidatoId: "cp1", percentual: 34.0 },
+      { candidatoId: "cp2", percentual: 25.0 },
+      { candidatoId: "cp3", percentual: 20.5 },
+      { candidatoId: "cp4", percentual: 11.2 },
+      { candidatoId: "cp5", percentual: 9.3 },
+    ],
+  },
+  {
+    mes: "Jan",
+    candidatos: [
+      { candidatoId: "cp1", percentual: 35.2 },
+      { candidatoId: "cp2", percentual: 25.1 },
+      { candidatoId: "cp3", percentual: 20.0 },
+      { candidatoId: "cp4", percentual: 11.0 },
+      { candidatoId: "cp5", percentual: 8.7 },
+    ],
+  },
+];
+
+// ---------- EVOLUÇÃO TEMPORAL - VEREADOR ----------
+export const evolucaoVereador: EvolucaoTemporal[] = [
+  {
+    mes: "Ago",
+    candidatos: [
+      { candidatoId: "cv1", percentual: 16.5 },
+      { candidatoId: "cv2", percentual: 14.2 },
+      { candidatoId: "cv3", percentual: 12.8 },
+      { candidatoId: "cv4", percentual: 11.0 },
+      { candidatoId: "cv5", percentual: 9.5 },
+      { candidatoId: "cv6", percentual: 8.8 },
+    ],
+  },
+  {
+    mes: "Set",
+    candidatos: [
+      { candidatoId: "cv1", percentual: 17.0 },
+      { candidatoId: "cv2", percentual: 14.8 },
+      { candidatoId: "cv3", percentual: 12.5 },
+      { candidatoId: "cv4", percentual: 11.2 },
+      { candidatoId: "cv5", percentual: 9.8 },
+      { candidatoId: "cv6", percentual: 9.0 },
+    ],
+  },
+  {
+    mes: "Out",
+    candidatos: [
+      { candidatoId: "cv1", percentual: 17.5 },
+      { candidatoId: "cv2", percentual: 15.0 },
+      { candidatoId: "cv3", percentual: 12.8 },
+      { candidatoId: "cv4", percentual: 11.5 },
+      { candidatoId: "cv5", percentual: 10.0 },
+      { candidatoId: "cv6", percentual: 9.2 },
+    ],
+  },
+  {
+    mes: "Nov",
+    candidatos: [
+      { candidatoId: "cv1", percentual: 18.0 },
+      { candidatoId: "cv2", percentual: 15.3 },
+      { candidatoId: "cv3", percentual: 13.0 },
+      { candidatoId: "cv4", percentual: 11.5 },
+      { candidatoId: "cv5", percentual: 10.2 },
+      { candidatoId: "cv6", percentual: 9.5 },
+    ],
+  },
+  {
+    mes: "Dez",
+    candidatos: [
+      { candidatoId: "cv1", percentual: 18.2 },
+      { candidatoId: "cv2", percentual: 15.5 },
+      { candidatoId: "cv3", percentual: 13.0 },
+      { candidatoId: "cv4", percentual: 11.6 },
+      { candidatoId: "cv5", percentual: 10.3 },
+      { candidatoId: "cv6", percentual: 9.6 },
+    ],
+  },
+  {
+    mes: "Jan",
+    candidatos: [
+      { candidatoId: "cv1", percentual: 18.4 },
+      { candidatoId: "cv2", percentual: 15.6 },
+      { candidatoId: "cv3", percentual: 13.0 },
+      { candidatoId: "cv4", percentual: 11.6 },
+      { candidatoId: "cv5", percentual: 10.4 },
+      { candidatoId: "cv6", percentual: 9.6 },
+    ],
+  },
+];
+
+// ---------- DEMOGRÁFICOS - PREFEITO ----------
+export const demograficosPrefeito: DadosDemograficos = {
+  faixaEtaria: [
+    {
+      faixa: "18-29",
+      candidatos: [
+        { candidatoId: "cp1", pct: 28.5 },
+        { candidatoId: "cp2", pct: 26.8 },
+        { candidatoId: "cp3", pct: 18.2 },
+        { candidatoId: "cp4", pct: 16.5 },
+        { candidatoId: "cp5", pct: 10.0 },
+      ],
+    },
+    {
+      faixa: "30-44",
+      candidatos: [
+        { candidatoId: "cp1", pct: 35.0 },
+        { candidatoId: "cp2", pct: 24.5 },
+        { candidatoId: "cp3", pct: 20.5 },
+        { candidatoId: "cp4", pct: 11.0 },
+        { candidatoId: "cp5", pct: 9.0 },
+      ],
+    },
+    {
+      faixa: "45-59",
+      candidatos: [
+        { candidatoId: "cp1", pct: 37.8 },
+        { candidatoId: "cp2", pct: 25.0 },
+        { candidatoId: "cp3", pct: 20.2 },
+        { candidatoId: "cp4", pct: 9.5 },
+        { candidatoId: "cp5", pct: 7.5 },
+      ],
+    },
+    {
+      faixa: "60+",
+      candidatos: [
+        { candidatoId: "cp1", pct: 40.2 },
+        { candidatoId: "cp2", pct: 24.5 },
+        { candidatoId: "cp3", pct: 19.3 },
+        { candidatoId: "cp4", pct: 8.5 },
+        { candidatoId: "cp5", pct: 7.5 },
+      ],
+    },
+  ],
+  genero: [
+    {
+      genero: "Masculino",
+      candidatos: [
+        { candidatoId: "cp1", pct: 38.0 },
+        { candidatoId: "cp2", pct: 23.5 },
+        { candidatoId: "cp3", pct: 21.5 },
+        { candidatoId: "cp4", pct: 9.5 },
+        { candidatoId: "cp5", pct: 7.5 },
+      ],
+    },
+    {
+      genero: "Feminino",
+      candidatos: [
+        { candidatoId: "cp1", pct: 32.5 },
+        { candidatoId: "cp2", pct: 26.8 },
+        { candidatoId: "cp3", pct: 18.5 },
+        { candidatoId: "cp4", pct: 12.5 },
+        { candidatoId: "cp5", pct: 9.7 },
+      ],
+    },
+  ],
+};
+
+// ---------- DEMOGRÁFICOS - VEREADOR ----------
+export const demograficosVereador: DadosDemograficos = {
+  faixaEtaria: [
+    {
+      faixa: "18-29",
+      candidatos: [
+        { candidatoId: "cv1", pct: 16.5 },
+        { candidatoId: "cv2", pct: 15.2 },
+        { candidatoId: "cv3", pct: 13.5 },
+        { candidatoId: "cv4", pct: 14.8 },
+        { candidatoId: "cv5", pct: 10.0 },
+        { candidatoId: "cv6", pct: 9.5 },
+      ],
+    },
+    {
+      faixa: "30-44",
+      candidatos: [
+        { candidatoId: "cv1", pct: 18.8 },
+        { candidatoId: "cv2", pct: 15.5 },
+        { candidatoId: "cv3", pct: 13.0 },
+        { candidatoId: "cv4", pct: 11.7 },
+        { candidatoId: "cv5", pct: 10.5 },
+        { candidatoId: "cv6", pct: 9.8 },
+      ],
+    },
+    {
+      faixa: "45-59",
+      candidatos: [
+        { candidatoId: "cv1", pct: 19.5 },
+        { candidatoId: "cv2", pct: 16.0 },
+        { candidatoId: "cv3", pct: 13.2 },
+        { candidatoId: "cv4", pct: 11.0 },
+        { candidatoId: "cv5", pct: 10.8 },
+        { candidatoId: "cv6", pct: 9.8 },
+      ],
+    },
+    {
+      faixa: "60+",
+      candidatos: [
+        { candidatoId: "cv1", pct: 20.0 },
+        { candidatoId: "cv2", pct: 16.5 },
+        { candidatoId: "cv3", pct: 12.5 },
+        { candidatoId: "cv4", pct: 10.5 },
+        { candidatoId: "cv5", pct: 11.0 },
+        { candidatoId: "cv6", pct: 9.5 },
+      ],
+    },
+  ],
+  genero: [
+    {
+      genero: "Masculino",
+      candidatos: [
+        { candidatoId: "cv1", pct: 19.5 },
+        { candidatoId: "cv2", pct: 14.8 },
+        { candidatoId: "cv3", pct: 14.0 },
+        { candidatoId: "cv4", pct: 10.5 },
+        { candidatoId: "cv5", pct: 11.2 },
+        { candidatoId: "cv6", pct: 9.0 },
+      ],
+    },
+    {
+      genero: "Feminino",
+      candidatos: [
+        { candidatoId: "cv1", pct: 17.2 },
+        { candidatoId: "cv2", pct: 16.5 },
+        { candidatoId: "cv3", pct: 12.0 },
+        { candidatoId: "cv4", pct: 12.8 },
+        { candidatoId: "cv5", pct: 9.5 },
+        { candidatoId: "cv6", pct: 10.2 },
+      ],
+    },
+  ],
+};

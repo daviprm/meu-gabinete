@@ -1463,6 +1463,147 @@ function MapClusterLayer<
   return null;
 }
 
+type MapGeoJSONLayerProps = {
+  /** Optional unique identifier for the layer */
+  id?: string;
+  /** GeoJSON FeatureCollection data */
+  data: GeoJSON.FeatureCollection;
+  /** Fill color - can be a single color or a MapLibre expression */
+  fillColor?: string | unknown[];
+  /** Fill opacity from 0 to 1 (default: 0.6) */
+  fillOpacity?: number;
+  /** Outline color (default: "#333") */
+  outlineColor?: string;
+  /** Outline width (default: 1) */
+  outlineWidth?: number;
+  /** Callback when a feature is clicked */
+  onClick?: (feature: GeoJSON.Feature, lngLat: { lng: number; lat: number }) => void;
+  /** Callback when mouse enters a feature */
+  onMouseEnter?: (feature: GeoJSON.Feature) => void;
+  /** Callback when mouse leaves */
+  onMouseLeave?: () => void;
+};
+
+function MapGeoJSONLayer({
+  id: propId,
+  data,
+  fillColor = "#3b82f6",
+  fillOpacity = 0.6,
+  outlineColor = "#333",
+  outlineWidth = 1,
+  onClick,
+  onMouseEnter,
+  onMouseLeave,
+}: MapGeoJSONLayerProps) {
+  const { map, isLoaded } = useMap();
+  const autoId = useId();
+  const id = propId ?? autoId;
+  const sourceId = `geojson-source-${id}`;
+  const fillLayerId = `geojson-fill-${id}`;
+  const lineLayerId = `geojson-line-${id}`;
+
+  const callbacksRef = useRef({ onClick, onMouseEnter, onMouseLeave });
+  callbacksRef.current = { onClick, onMouseEnter, onMouseLeave };
+
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+
+    map.addSource(sourceId, {
+      type: "geojson",
+      data,
+    });
+
+    map.addLayer({
+      id: fillLayerId,
+      type: "fill",
+      source: sourceId,
+      paint: {
+        "fill-color": fillColor as string,
+        "fill-opacity": fillOpacity,
+      },
+    });
+
+    map.addLayer({
+      id: lineLayerId,
+      type: "line",
+      source: sourceId,
+      paint: {
+        "line-color": outlineColor,
+        "line-width": outlineWidth,
+      },
+    });
+
+    return () => {
+      try {
+        if (map.getLayer(lineLayerId)) map.removeLayer(lineLayerId);
+        if (map.getLayer(fillLayerId)) map.removeLayer(fillLayerId);
+        if (map.getSource(sourceId)) map.removeSource(sourceId);
+      } catch {
+        // ignore
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoaded, map]);
+
+  // Update data
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+    const source = map.getSource(sourceId) as MapLibreGL.GeoJSONSource;
+    if (source) {
+      source.setData(data);
+    }
+  }, [isLoaded, map, data, sourceId]);
+
+  // Update paint properties
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+    if (map.getLayer(fillLayerId)) {
+      map.setPaintProperty(fillLayerId, "fill-color", fillColor as string);
+      map.setPaintProperty(fillLayerId, "fill-opacity", fillOpacity);
+    }
+    if (map.getLayer(lineLayerId)) {
+      map.setPaintProperty(lineLayerId, "line-color", outlineColor);
+      map.setPaintProperty(lineLayerId, "line-width", outlineWidth);
+    }
+  }, [isLoaded, map, fillLayerId, lineLayerId, fillColor, fillOpacity, outlineColor, outlineWidth]);
+
+  // Events
+  useEffect(() => {
+    if (!isLoaded || !map) return;
+
+    const handleClick = (e: MapLibreGL.MapMouseEvent & { features?: MapLibreGL.MapGeoJSONFeature[] }) => {
+      if (e.features?.length) {
+        callbacksRef.current.onClick?.(
+          e.features[0] as unknown as GeoJSON.Feature,
+          { lng: e.lngLat.lng, lat: e.lngLat.lat }
+        );
+      }
+    };
+    const handleMouseEnter = (e: MapLibreGL.MapMouseEvent & { features?: MapLibreGL.MapGeoJSONFeature[] }) => {
+      map.getCanvas().style.cursor = "pointer";
+      if (e.features?.length) {
+        callbacksRef.current.onMouseEnter?.(e.features[0] as unknown as GeoJSON.Feature);
+      }
+    };
+    const handleMouseLeave = () => {
+      map.getCanvas().style.cursor = "";
+      callbacksRef.current.onMouseLeave?.();
+    };
+
+    map.on("click", fillLayerId, handleClick);
+    map.on("mouseenter", fillLayerId, handleMouseEnter);
+    map.on("mouseleave", fillLayerId, handleMouseLeave);
+
+    return () => {
+      map.off("click", fillLayerId, handleClick);
+      map.off("mouseenter", fillLayerId, handleMouseEnter);
+      map.off("mouseleave", fillLayerId, handleMouseLeave);
+    };
+  }, [isLoaded, map, fillLayerId]);
+
+  return null;
+}
+
 export {
   Map,
   useMap,
@@ -1475,6 +1616,7 @@ export {
   MapControls,
   MapRoute,
   MapClusterLayer,
+  MapGeoJSONLayer,
 };
 
 export type { MapRef, MapViewport };
