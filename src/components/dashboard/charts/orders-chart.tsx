@@ -85,7 +85,7 @@ export function OrdersChart() {
             tickLine={false}
             axisLine={false}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip />} cursor={false} />
           <Bar
             dataKey="concluidas"
             fill="var(--color-foreground)"

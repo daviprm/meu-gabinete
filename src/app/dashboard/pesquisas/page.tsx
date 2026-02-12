@@ -22,9 +22,36 @@ import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, BarChart, Bar, Legend,
 } from "recharts";
+
+function CustomTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: Array<{ value: number; dataKey: string; color: string }>;
+  label?: string;
+}) {
+  if (!active || !payload) return null;
+  return (
+    <div className="rounded-md border border-border bg-background px-3 py-2 text-xs shadow-sm">
+      <p className="mb-1 font-medium text-foreground">{label}</p>
+      {payload.map((entry) => (
+        <div key={entry.dataKey} className="flex items-center gap-1.5">
+          <div
+            className="h-2 w-2 rounded-full"
+            style={{ backgroundColor: entry.color }}
+          />
+          <span className="text-muted-foreground">{entry.dataKey}: </span>
+          <span className="font-medium text-foreground">{entry.value}%</span>
+        </div>
+      ))}
+    </div>
+  );
+}
 import {
   pesquisas, type Pesquisa,
   candidatosPrefeito, candidatosVereador,
@@ -288,17 +315,10 @@ export default function PesquisasPage() {
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={evolucaoData}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-              <XAxis dataKey="mes" className="text-xs" tick={{ fontSize: 11 }} />
-              <YAxis className="text-xs" tick={{ fontSize: 11 }} unit="%" />
-              <RechartsTooltip
-                contentStyle={{
-                  backgroundColor: "hsl(var(--popover))",
-                  borderColor: "hsl(var(--border))",
-                  borderRadius: 8,
-                  fontSize: 12,
-                }}
-              />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+              <XAxis dataKey="mes" fontSize={12} stroke="var(--color-muted-foreground)" tickLine={false} axisLine={false} />
+              <YAxis fontSize={12} stroke="var(--color-muted-foreground)" tickLine={false} axisLine={false} unit="%" />
+              <Tooltip content={<CustomTooltip />} />
               {candidatos.map((c) => (
                 <Line
                   key={c.id}
@@ -322,17 +342,10 @@ export default function PesquisasPage() {
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={faixaEtariaData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                <XAxis type="number" unit="%" tick={{ fontSize: 11 }} />
-                <YAxis dataKey="faixa" type="category" width={50} tick={{ fontSize: 11 }} />
-                <RechartsTooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--popover))",
-                    borderColor: "hsl(var(--border))",
-                    borderRadius: 8,
-                    fontSize: 12,
-                  }}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                <XAxis type="number" unit="%" fontSize={12} stroke="var(--color-muted-foreground)" tickLine={false} axisLine={false} />
+                <YAxis dataKey="faixa" type="category" width={50} fontSize={12} stroke="var(--color-muted-foreground)" tickLine={false} axisLine={false} />
+                <Tooltip content={<CustomTooltip />} cursor={false} />
                 {candidatos.slice(0, 4).map((c) => (
                   <Bar key={c.id} dataKey={c.nome} fill={c.cor} radius={[0, 2, 2, 0]} />
                 ))}
@@ -346,17 +359,10 @@ export default function PesquisasPage() {
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={generoData} layout="vertical">
-                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                <XAxis type="number" unit="%" tick={{ fontSize: 11 }} />
-                <YAxis dataKey="genero" type="category" width={70} tick={{ fontSize: 11 }} />
-                <RechartsTooltip
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--popover))",
-                    borderColor: "hsl(var(--border))",
-                    borderRadius: 8,
-                    fontSize: 12,
-                  }}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
+                <XAxis type="number" unit="%" fontSize={12} stroke="var(--color-muted-foreground)" tickLine={false} axisLine={false} />
+                <YAxis dataKey="genero" type="category" width={70} fontSize={12} stroke="var(--color-muted-foreground)" tickLine={false} axisLine={false} />
+                <Tooltip content={<CustomTooltip />} cursor={false} />
                 {candidatos.slice(0, 4).map((c) => (
                   <Bar key={c.id} dataKey={c.nome} fill={c.cor} radius={[0, 2, 2, 0]} />
                 ))}

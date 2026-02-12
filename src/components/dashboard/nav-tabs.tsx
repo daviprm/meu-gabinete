@@ -12,6 +12,7 @@ import {
   UsersRound,
   Calendar,
   MessageSquare,
+  Megaphone,
   BarChart3,
   Settings,
 } from "lucide-react";
@@ -31,6 +32,7 @@ const navItems = [
   { label: "Equipe", href: "/dashboard/equipe", icon: UsersRound },
   { label: "Agenda", href: "/dashboard/agenda", icon: Calendar },
   { label: "Comunicação", href: "/dashboard/comunicacao", icon: MessageSquare },
+  { label: "Disparos", href: "/dashboard/disparos", icon: Megaphone },
   { label: "Relatórios", href: "/dashboard/relatorios", icon: BarChart3 },
   { label: "Configurações", href: "/dashboard/configuracoes", icon: Settings },
 ];

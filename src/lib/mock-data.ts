@@ -713,6 +713,93 @@ export const demograficosPrefeito: DadosDemograficos = {
 };
 
 // ---------- DEMOGRÁFICOS - VEREADOR ----------
+// ========== DISPAROS WHATSAPP ==========
+
+export interface TemplateWhatsApp {
+  id: string;
+  nome: string;
+  categoria: "Marketing" | "Pesquisa" | "Engajamento" | "Boas-vindas" | "Lembrete";
+  mensagem: string;
+  segmentoAlvo: string;
+  criadoEm: string;
+  ultimoUso: string;
+  vezesUsado: number;
+}
+
+export interface Disparo {
+  id: string;
+  templateId: string;
+  templateNome: string;
+  segmento: string;
+  intencao: "Favorável" | "Indeciso" | "Oposição" | "Todos";
+  destinatarios: number;
+  enviados: number;
+  entregues: number;
+  lidos: number;
+  falhas: number;
+  status: "Enviado" | "Agendado" | "Em andamento" | "Falha";
+  data: string;
+  pesquisaVinculada: string | null;
+}
+
+export interface DisparoEstatisticaTemporal {
+  semana: string;
+  favoraveis: number;
+  indecisos: number;
+  oposicao: number;
+  total: number;
+}
+
+export interface ConversaoIntencao {
+  mes: string;
+  indecisosConvertidos: number;
+  oposicaoConvertidos: number;
+  totalAbordados: number;
+  taxaConversao: number;
+}
+
+// ---------- TEMPLATES WHATSAPP ----------
+export const templatesWhatsApp: TemplateWhatsApp[] = [
+  { id: "t1", nome: "Boas-vindas Eleitor", categoria: "Boas-vindas", mensagem: "Olá {{nome}}! Seja bem-vindo(a) à nossa comunidade. Estamos trabalhando para melhorar a vida no {{bairro}}. Conte conosco!", segmentoAlvo: "Novos cadastros", criadoEm: "2025-11-15", ultimoUso: "2026-02-01", vezesUsado: 12 },
+  { id: "t2", nome: "Convite Audiência Pública", categoria: "Engajamento", mensagem: "{{nome}}, você está convidado(a) para a audiência pública sobre saúde no dia 12/02 às 10h na Câmara Municipal. Sua presença é importante!", segmentoAlvo: "Tag: Saúde", criadoEm: "2025-12-01", ultimoUso: "2026-02-05", vezesUsado: 8 },
+  { id: "t3", nome: "Pesquisa de Satisfação", categoria: "Pesquisa", mensagem: "Olá {{nome}}! Gostaríamos de saber sua opinião sobre as melhorias no {{bairro}}. Responda nossa pesquisa rápida: [link]", segmentoAlvo: "Todos os segmentos", criadoEm: "2025-12-10", ultimoUso: "2026-01-28", vezesUsado: 15 },
+  { id: "t4", nome: "Prestação de Contas Mensal", categoria: "Marketing", mensagem: "{{nome}}, confira o que fizemos este mês pelo {{bairro}}: ✅ 12 demandas resolvidas ✅ 3 obras iniciadas ✅ 2 audiências realizadas. Transparência sempre!", segmentoAlvo: "Favoráveis", criadoEm: "2026-01-01", ultimoUso: "2026-02-03", vezesUsado: 6 },
+  { id: "t5", nome: "Lembrete de Evento", categoria: "Lembrete", mensagem: "Não esqueça, {{nome}}! Amanhã tem evento comunitário no {{bairro}} às 16h. Esperamos você lá! 🤝", segmentoAlvo: "Por bairro", criadoEm: "2026-01-05", ultimoUso: "2026-02-07", vezesUsado: 10 },
+  { id: "t6", nome: "Abordagem Indecisos", categoria: "Engajamento", mensagem: "{{nome}}, sabemos que escolher é difícil. Conheça nosso trabalho no {{bairro}} e veja como estamos fazendo a diferença. Podemos conversar?", segmentoAlvo: "Indecisos", criadoEm: "2026-01-10", ultimoUso: "2026-02-06", vezesUsado: 18 },
+  { id: "t7", nome: "Campanha Porta a Porta", categoria: "Marketing", mensagem: "{{nome}}, nossa equipe estará no {{bairro}} nesta semana! Quer agendar uma visita para conversarmos sobre as demandas da sua região?", segmentoAlvo: "Zona Leste", criadoEm: "2026-01-15", ultimoUso: "2026-02-08", vezesUsado: 4 },
+];
+
+// ---------- DISPAROS ----------
+export const disparos: Disparo[] = [
+  { id: "d1", templateId: "t6", templateNome: "Abordagem Indecisos", segmento: "Indecisos geral", intencao: "Indeciso", destinatarios: 38, enviados: 38, entregues: 35, lidos: 28, falhas: 3, status: "Enviado", data: "2026-02-08", pesquisaVinculada: "Pesquisa Centro - Dez/25" },
+  { id: "d2", templateId: "t1", templateNome: "Boas-vindas Eleitor", segmento: "Novos cadastros Jan/26", intencao: "Todos", destinatarios: 24, enviados: 24, entregues: 23, lidos: 19, falhas: 1, status: "Enviado", data: "2026-02-05", pesquisaVinculada: null },
+  { id: "d3", templateId: "t4", templateNome: "Prestação de Contas Mensal", segmento: "Favoráveis - Centro", intencao: "Favorável", destinatarios: 45, enviados: 45, entregues: 42, lidos: 36, falhas: 3, status: "Enviado", data: "2026-02-03", pesquisaVinculada: null },
+  { id: "d4", templateId: "t2", templateNome: "Convite Audiência Pública", segmento: "Tag: Saúde", intencao: "Todos", destinatarios: 62, enviados: 62, entregues: 58, lidos: 41, falhas: 4, status: "Enviado", data: "2026-02-01", pesquisaVinculada: "Pesquisa Atalaia" },
+  { id: "d5", templateId: "t5", templateNome: "Lembrete de Evento", segmento: "Zona Leste completa", intencao: "Todos", destinatarios: 87, enviados: 87, entregues: 80, lidos: 52, falhas: 7, status: "Enviado", data: "2026-01-28", pesquisaVinculada: null },
+  { id: "d6", templateId: "t3", templateNome: "Pesquisa de Satisfação", segmento: "Favoráveis - Centro", intencao: "Favorável", destinatarios: 45, enviados: 45, entregues: 43, lidos: 38, falhas: 2, status: "Enviado", data: "2026-01-25", pesquisaVinculada: "Pesquisa Centro - Dez/25" },
+  { id: "d7", templateId: "t7", templateNome: "Campanha Porta a Porta", segmento: "Zona Leste completa", intencao: "Todos", destinatarios: 87, enviados: 0, entregues: 0, lidos: 0, falhas: 0, status: "Agendado", data: "2026-02-15", pesquisaVinculada: "Pesquisa Zona Norte" },
+  { id: "d8", templateId: "t6", templateNome: "Abordagem Indecisos", segmento: "Indecisos geral", intencao: "Indeciso", destinatarios: 38, enviados: 20, entregues: 18, lidos: 12, falhas: 2, status: "Em andamento", data: "2026-02-10", pesquisaVinculada: "Pesquisa Farolândia" },
+];
+
+// ---------- ESTATÍSTICAS TEMPORAIS DISPAROS ----------
+export const disparoEstatisticas: DisparoEstatisticaTemporal[] = [
+  { semana: "Sem 1", favoraveis: 45, indecisos: 22, oposicao: 8, total: 75 },
+  { semana: "Sem 2", favoraveis: 38, indecisos: 35, oposicao: 12, total: 85 },
+  { semana: "Sem 3", favoraveis: 52, indecisos: 28, oposicao: 15, total: 95 },
+  { semana: "Sem 4", favoraveis: 60, indecisos: 42, oposicao: 10, total: 112 },
+  { semana: "Sem 5", favoraveis: 48, indecisos: 38, oposicao: 18, total: 104 },
+  { semana: "Sem 6", favoraveis: 55, indecisos: 45, oposicao: 14, total: 114 },
+];
+
+// ---------- CONVERSÃO INTENÇÃO ----------
+export const conversaoIntencao: ConversaoIntencao[] = [
+  { mes: "Out", indecisosConvertidos: 8, oposicaoConvertidos: 2, totalAbordados: 45, taxaConversao: 22.2 },
+  { mes: "Nov", indecisosConvertidos: 12, oposicaoConvertidos: 3, totalAbordados: 58, taxaConversao: 25.9 },
+  { mes: "Dez", indecisosConvertidos: 15, oposicaoConvertidos: 4, totalAbordados: 72, taxaConversao: 26.4 },
+  { mes: "Jan", indecisosConvertidos: 18, oposicaoConvertidos: 5, totalAbordados: 80, taxaConversao: 28.8 },
+  { mes: "Fev", indecisosConvertidos: 22, oposicaoConvertidos: 6, totalAbordados: 95, taxaConversao: 29.5 },
+];
+
 export const demograficosVereador: DadosDemograficos = {
   faixaEtaria: [
     {
